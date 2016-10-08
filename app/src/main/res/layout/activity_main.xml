@@ -7,10 +7,49 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
     tools:context="com.repmax.devlanding.onerepmaxcalculator.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/weightTextView"
+        android:text="Weight"
+        android:layout_centerHorizontal="true"
+        />
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/weightTextView"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/repsTextView"
+        android:text="Reps"
+        android:layout_centerHorizontal="true"
+        />
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/repsTextView"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        />
+    </RelativeLayout>
 </RelativeLayout>
