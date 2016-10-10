@@ -23,7 +23,7 @@ public abstract class OneRepMaxTemplate {
     }
 
     public int[] calculateOneToTenRepMax(){
-        int[] oneToTenRepMaxs = new int[11];
+        int[] oneToTenRepMaxs = new int[10];
         oneToTenRepMaxs[0] = (int) calculateOneRepMax();
 
         double oneRepMax = oneToTenRepMaxs[0];
