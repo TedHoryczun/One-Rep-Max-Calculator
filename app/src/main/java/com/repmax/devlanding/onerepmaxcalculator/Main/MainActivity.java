@@ -1,19 +1,18 @@
-package com.repmax.devlanding.onerepmaxcalculator;
+package com.repmax.devlanding.onerepmaxcalculator.Main;
 
-import android.content.ReceiverCallNotAllowedException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 
+import com.repmax.devlanding.onerepmaxcalculator.R;
 import com.repmax.devlanding.onerepmaxcalculator.calculator.OneRepMaxTemplate;
 import com.repmax.devlanding.onerepmaxcalculator.calculator.PercentRepMax;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityMvp.view{
     private RecyclerView recyclerView;
     private EditText weightEditText;
     private EditText repsEditText;
@@ -21,25 +20,25 @@ public class MainActivity extends AppCompatActivity {
     private int weight;
     private int reps;
     private int[] data;
-    private RecyclerViewAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         weightEditText = (EditText) findViewById(R.id.weightEditText);
         repsEditText = (EditText) findViewById(R.id.repsEditText);
 
+
         weight = getIntFromEditText(weightEditText.getText().toString());
         reps = getIntFromEditText(repsEditText.getText().toString());
 
-        data = get10RepMaxs(200, 5);
 
-        adapter = new RecyclerViewAdapter(getApplicationContext(), data);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+
+        final MainPresenter presenter = new MainPresenter(this, getApplicationContext());
+        presenter.createListOfMaxs();
+
 
         weightEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -50,19 +49,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.equals("") || charSequence == null || charSequence.length() == 0) {
-                    weight = 0;
+                    presenter.updateWeight(0);
                 } else {
-                    weight = Integer.parseInt(charSequence.toString());
+                    int weight = Integer.parseInt(charSequence.toString());
+                    presenter.updateWeight(weight);
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reps = Integer.parseInt(repsEditText.getText().toString());
-                data = get10RepMaxs(weight, reps);
-                adapter = new RecyclerViewAdapter(getApplicationContext(), data);
-                recyclerView.setAdapter(adapter);
+                weight = getIntFromEditText(weightEditText.getText().toString());
+                System.out.println("newweight: " + weight);
+                presenter.updateWeight(weight);
+                presenter.updateList();
             }
         });
         repsEditText.addTextChangedListener(new TextWatcher() {
@@ -74,18 +74,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.equals("") || charSequence == null || charSequence.length() == 0) {
-                    reps = 1;
+                    presenter.updateReps(1);
                 } else {
-                    reps = Integer.parseInt(charSequence.toString());
+                    int reps = Integer.parseInt(charSequence.toString());
+                    presenter.updateReps(reps);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                weight = Integer.parseInt(weightEditText.getText().toString());
-                data = get10RepMaxs(weight, reps);
-                adapter = new RecyclerViewAdapter(getApplicationContext(), data);
-                recyclerView.setAdapter(adapter);
+                reps = getIntFromEditText(repsEditText.getText().toString());
+                System.out.println("new reps: " + reps);
+                presenter.updateReps(reps);
+                presenter.updateList();
 
             }
         });
@@ -99,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
         return editTextInt;
     }
 
-    private int[] get10RepMaxs(int weight, int reps) {
-        OneRepMaxTemplate oneRepMaxTemplate = new PercentRepMax();
-        int[] data = oneRepMaxTemplate.determineRepMaxes(weight, reps);
 
-        return data;
+    @Override
+    public void showListOfMaxs(RecyclerViewAdapter adapter) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 }

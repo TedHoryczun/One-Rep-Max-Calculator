@@ -23,7 +23,7 @@ public abstract class OneRepMaxTemplate {
     }
 
     public int[] calculateOneToTenRepMax(){
-        int[] oneToTenRepMaxs = new int[10];
+        int[] oneToTenRepMaxs = new int[15];
         oneToTenRepMaxs[0] = (int) calculateOneRepMax();
 
         double oneRepMax = oneToTenRepMaxs[0];
@@ -40,6 +40,12 @@ public abstract class OneRepMaxTemplate {
 
         }
         return oneToTenRepMaxs;
+    }
+    public static int[] get10RepMaxs(int weight, int reps) {
+        OneRepMaxTemplate oneRepMaxTemplate = new PercentRepMax();
+        int[] data = oneRepMaxTemplate.determineRepMaxes(weight, reps);
+
+        return data;
     }
 
     public abstract HashMap<Integer, Integer> calculateSpecialOneToTenRepMax();

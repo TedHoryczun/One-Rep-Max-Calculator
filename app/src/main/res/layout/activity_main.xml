@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary"
-    tools:context="com.repmax.devlanding.onerepmaxcalculator.MainActivity">
+    tools:context="com.repmax.devlanding.onerepmaxcalculator.Main.MainActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_below="@id/weightTextView"
+        android:text="200"
         android:id="@+id/weightEditText"
         android:textSize="20dp"
         android:layout_centerHorizontal="true"
@@ -50,7 +51,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="1"
+        android:text="5"
         android:layout_below="@id/repsTextView"
         android:id="@+id/repsEditText"
         android:textSize="20dp"
